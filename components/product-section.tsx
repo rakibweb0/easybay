@@ -8,6 +8,7 @@ import ProductModal from './product-modal'
 import { ProductType } from '@/lib/types'
 import Link from 'next/link'
 import Image from 'next/image'
+import { AspectRatio } from './ui/aspect-ratio'
 
 export default function ProductSection({ products }: { products: ProductType[] }) {
   const [isCartOpen, setIsCartOpen] = useState(false)
@@ -38,10 +39,10 @@ export default function ProductSection({ products }: { products: ProductType[] }
           <p className="text-sm uppercase tracking-[0.35em] text-primary font-semibold mb-4">
             Easy Bay
           </p>
-          <h1 className="text-5xl md:text-6xl font-semibold text-foreground mb-6 leading-tight text-balance">
+          <h1 className="text-3xl md:text-6xl font-semibold text-foreground mb-6 leading-tight text-balance">
             Modern men&apos;s fashion, refined for every day.
           </h1>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
             Easy Bay brings you a curated edit of menswear essentials and sharp statement pieces. Shop premium jackets, shirts, knitwear, and accessories designed for confident style and lasting quality.
           </p>
         </div>
@@ -117,8 +118,11 @@ export default function ProductSection({ products }: { products: ProductType[] }
       <footer className="border-t border-border bg-background py-12">
         <div className="max-w-7xl mx-auto px-4 grid gap-10 md:grid-cols-3">
           <div>
+            
             <Link href="/" >
-              <Image src="/logo.png" alt="" width={180} height={0}/>
+              <AspectRatio ratio={16/2} className='w-28 md:w-36'>
+                <Image src="/logo.png" alt="logo" fill className="object-contain" />
+              </AspectRatio>
             </Link>
             <p className="text-sm text-muted-foreground mt-2">
               Easy Bay is your destination for premium men&apos;s fashion. We curate sleek essentials, versatile layering pieces, and seasonal statement styles for modern wardrobes.
