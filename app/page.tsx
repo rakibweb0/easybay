@@ -7,7 +7,6 @@ export default async function Home() {
   const options = { next: { revalidate: 30 } };
   const products = await client.fetch<ProductType[]>(PRODUCT_QUERY, {}, options);
 
-  console.log(products)
   return (
     <div>
       <ProductSection products={products} />

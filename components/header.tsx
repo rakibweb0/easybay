@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useCart } from '@/lib/cart-context'
 import { ShoppingCart } from 'lucide-react'
+import Image from 'next/image'
 
 interface HeaderProps {
   isCartOpen: boolean
@@ -23,11 +24,9 @@ export default function Header({ isCartOpen, onCartToggle }: HeaderProps) {
     <header className="sticky top-0 z-40 bg-background border-b border-border">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg">
-            ✓
-          </div>
-          <span className="text-xl font-semibold text-foreground">Shop</span>
+  
+        <Link href="/">
+        <Image src="/logo.png" alt="" width={256} height={0}/>
         </Link>
 
         {/* Navigation - hidden on mobile */}
@@ -35,12 +34,12 @@ export default function Header({ isCartOpen, onCartToggle }: HeaderProps) {
           <Link href="/" className="hover:text-foreground transition-colors">
             Products
           </Link>
-          <a href="#" className="hover:text-foreground transition-colors">
+          <Link href="/about" className="hover:text-foreground transition-colors">
             About
-          </a>
-          <a href="#" className="hover:text-foreground transition-colors">
+          </Link>
+          <Link href="/contact" className="hover:text-foreground transition-colors">
             Contact
-          </a>
+          </Link>
         </nav>
 
         {/* Cart Button */}
