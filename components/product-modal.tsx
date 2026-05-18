@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { useCart } from '@/lib/cart-context'
 import { X, Plus, Minus } from 'lucide-react'
-import { sanityImageUrl } from '@/lib/image-builder'
+import { sanityImageBlurUrl, sanityImageUrl } from '@/lib/image-builder'
 import { ProductType } from '@/lib/types'
 
 interface ProductModalProps {
@@ -18,8 +18,9 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
   const [isAdded, setIsAdded] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-  const images = product.images?.length ? product.images : product.images?.length ? product.images : []
+  const images = product.images?.length ? product.images : product.image?.length ? product.image : []
   const currentImageUrl = sanityImageUrl(images[currentImageIndex]?.asset, 1200)
+  const currentImageBlurUrl = sanityImageBlurUrl(images[currentImageIndex]?.asset, 100, undefined, 25, 15)
 
   const handleAddToCart = () => {
     addItem(product, quantity)
@@ -55,6 +56,12 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
               {/* Image Gallery */}
               <div className="flex flex-col gap-4">
                 <div className="relative aspect-square bg-muted rounded-lg overflow-hidden">
+                  {currentImageBlurUrl && (
+                    <div
+                      className="absolute inset-0 bg-cover bg-center blur-2xl scale-110 opacity-80"
+                      style={{ backgroundImage: `url(${currentImageBlurUrl})` }}
+                    />
+                  )}
                   {currentImageUrl ? (
                     <Image
                       src={currentImageUrl}
@@ -62,6 +69,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                       fill
                       className="object-cover"
                       priority
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center bg-muted text-muted-foreground">

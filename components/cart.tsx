@@ -71,7 +71,7 @@ export default function Cart({ onClose }: CartProps) {
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <Link href={`/products/${item.product.slug?.current ?? item.product._id}`}>
+                        <Link href={`/products/${item.product.slug ?? item.product._id}`}>
                           <h3 className="font-medium text-foreground hover:text-primary text-sm truncate">
                             {item.product.title}
                           </h3>

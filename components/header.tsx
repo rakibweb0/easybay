@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { useCart } from '@/lib/cart-context'
 import { ShoppingCart } from 'lucide-react'
 
@@ -11,6 +12,12 @@ interface HeaderProps {
 
 export default function Header({ isCartOpen, onCartToggle }: HeaderProps) {
   const { itemCount } = useCart()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true))
+    return () => cancelAnimationFrame(id)
+  }, [])
 
   return (
     <header className="sticky top-0 z-40 bg-background border-b border-border">
@@ -38,12 +45,14 @@ export default function Header({ isCartOpen, onCartToggle }: HeaderProps) {
 
         {/* Cart Button */}
         <button
+          type="button"
           onClick={onCartToggle}
+          aria-expanded={isCartOpen}
           className="flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground hover:bg-muted transition-colors relative"
         >
           <ShoppingCart size={20} />
           <span className="text-sm font-medium">Cart</span>
-          {itemCount > 0 && (
+          {mounted && itemCount > 0 && (
             <span className="absolute top-0 right-0 -mr-2 -mt-2 bg-accent text-accent-foreground text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">
               {itemCount}
             </span>

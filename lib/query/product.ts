@@ -14,5 +14,6 @@ export const PRODUCT_QUERY = `*[_type == "product" && status==true]{
   shortDescription,
   status,
   stock,
+
 }`;
 

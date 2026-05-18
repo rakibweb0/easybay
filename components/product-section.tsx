@@ -14,7 +14,7 @@ export default function ProductSection({ products }: { products: ProductType[] }
 
   return (
     <div className="min-h-screen bg-background">
-      <Header isCartOpen={isCartOpen} onCartToggle={() => setIsCartOpen(!isCartOpen)} />
+      <Header isCartOpen={isCartOpen} onCartToggle={() => setIsCartOpen(prev => !prev)} />
 
       <main className="max-w-7xl mx-auto px-4 py-12">
         {/* Hero Section */}
@@ -45,7 +45,7 @@ export default function ProductSection({ products }: { products: ProductType[] }
       )}
 
       {/* Cart Sidebar */}
-      {/* {isCartOpen && <Cart onClose={() => setIsCartOpen(false)} />} */}
+      {isCartOpen && <Cart onClose={() => setIsCartOpen(false)} />}
     </div>
   )
 }
