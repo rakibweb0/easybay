@@ -81,7 +81,7 @@ export default function Cart({ onClose }: CartProps) {
                           </h3>
                         </Link>
                         <p className="text-sm text-muted-foreground">
-                          ${item.product.price.toFixed(2)}
+                          ৳{item.product.price.toFixed(2)}
                         </p>
                       </div>
                     </div>
@@ -106,7 +106,7 @@ export default function Cart({ onClose }: CartProps) {
                       </div>
 
                       <p className="font-semibold text-foreground">
-                        ${(item.product.price * item.quantity).toFixed(2)}
+                        ৳{(item.product.price * item.quantity).toFixed(2)}
                       </p>
 
                       <button
@@ -129,15 +129,15 @@ export default function Cart({ onClose }: CartProps) {
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span className="font-medium">${total.toFixed(2)}</span>
+                <span className="font-medium">৳{total.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Shipping</span>
-                <span className="font-medium">Free</span>
+                <span className="font-medium">As per delivery address</span>
               </div>
               <div className="border-t border-border pt-2 flex justify-between">
                 <span className="font-semibold">Total</span>
-                <span className="text-lg font-semibold text-primary">${total.toFixed(2)}</span>
+                <span className="text-lg font-semibold text-primary">৳{total.toFixed(2)}</span>
               </div>
             </div>
 

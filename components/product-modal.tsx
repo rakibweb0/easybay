@@ -6,6 +6,7 @@ import { useCart } from '@/lib/cart-context'
 import { X, Plus, Minus } from 'lucide-react'
 import { sanityImageBlurUrl, sanityImageUrl } from '@/lib/image-builder'
 import { ProductType } from '@/lib/types'
+import { PortableText } from 'next-sanity'
 
 interface ProductModalProps {
   product: ProductType
@@ -128,11 +129,11 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
                 <div className="mb-8 pb-8 border-b border-border space-y-3">
                   <div className="text-3xl font-semibold text-foreground">
-                    ${product.price.toFixed(2)}
+                    ৳{product.price.toFixed(2)}
                   </div>
                   {product.offerPrice != null && (
                     <div className="text-sm text-muted-foreground">
-                      Offer Price: ${product.offerPrice.toFixed(2)}
+                      Offer Price: ৳{product.offerPrice.toFixed(2)}
                     </div>
                   )}
                   <div className={`text-sm mt-2 ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
@@ -174,23 +175,8 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   </button>
                 </div>
 
-                <div className="space-y-3 text-sm text-muted-foreground">
-                  <div className="flex justify-between">
-                    <span className="font-medium text-foreground">Slug</span>
-                    <span>{typeof product.slug === 'string' ? product.slug : product.slug?.current ?? '—'}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-medium text-foreground">Product ID</span>
-                    <span>{product._id}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-medium text-foreground">Status</span>
-                    <span>{product.status ? 'Active' : 'Inactive'}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-medium text-foreground">Images</span>
-                    <span>{images.length}</span>
-                  </div>
+                <div className="prose">
+                  <PortableText value={product.body} />
                 </div>
               </div>
             </div>

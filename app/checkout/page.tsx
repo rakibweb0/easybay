@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/lib/cart-context'
+import { buttonVariants } from '@/components/ui/button'
+import { ChevronLeft } from 'lucide-react'
 
 export default function CheckoutPage() {
   const { items, total, clearCart } = useCart()
@@ -67,7 +69,10 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-background py-12">
       <div className="mx-auto max-w-4xl px-4">
         <div className="mb-10 space-y-3">
-          <h1 className="text-4xl font-semibold text-foreground">Checkout</h1>
+          <div className="flex items-center gap-4">
+            <Link href="/" className={buttonVariants({ size: "icon" })}><ChevronLeft /></Link>
+            <h1 className="text-4xl font-semibold text-foreground">Checkout</h1>
+          </div>
           <p className="text-muted-foreground">Enter your contact details and place your order.</p>
         </div>
 
@@ -152,7 +157,7 @@ export default function CheckoutPage() {
                           <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
                         </div>
                         <p className="font-semibold text-foreground">
-                          ${(item.product.price * item.quantity).toFixed(2)}
+                          ৳{(item.product.price * item.quantity).toFixed(2)}
                         </p>
                       </div>
                     </li>
@@ -162,15 +167,15 @@ export default function CheckoutPage() {
                 <div className="rounded-3xl border border-border bg-muted p-4">
                   <div className="flex justify-between text-sm text-muted-foreground">
                     <span>Subtotal</span>
-                    <span>${total.toFixed(2)}</span>
+                    <span>৳{total.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-sm text-muted-foreground">
                     <span>Shipping</span>
-                    <span>Free</span>
+                    <span>As per delivery address</span>
                   </div>
                   <div className="mt-3 flex justify-between text-lg font-semibold text-foreground">
                     <span>Total</span>
-                    <span>${total.toFixed(2)}</span>
+                    <span>৳{total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
