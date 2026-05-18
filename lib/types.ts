@@ -22,7 +22,7 @@ export type ProductType = {
   price: number
   publishedAt?: string
   shortDescription?: string | null
-  slug: string
+  slug: string | { current?: string }
   status: boolean
   stock: number
   title: string

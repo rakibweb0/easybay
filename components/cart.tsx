@@ -52,6 +52,10 @@ export default function Cart({ onClose }: CartProps) {
               {items.map(item => {
                 const imageAsset = item.product.images?.[0]?.asset || item.product.image?.[0]?.asset
                 const imageSrc = sanityImageUrl(imageAsset, 240, 240)
+                const productSlug =
+                  typeof item.product.slug === 'string'
+                    ? item.product.slug
+                    : item.product.slug?.current ?? item.product._id
 
                 return (
                   <div key={item.product._id} className="border border-border p-4">
@@ -71,7 +75,7 @@ export default function Cart({ onClose }: CartProps) {
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <Link href={`/products/${item.product.slug ?? item.product._id}`}>
+                        <Link href={`/products/${productSlug}`}>
                           <h3 className="font-medium text-foreground hover:text-primary text-sm truncate">
                             {item.product.title}
                           </h3>

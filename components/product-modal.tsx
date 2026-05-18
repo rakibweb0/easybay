@@ -177,7 +177,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 <div className="space-y-3 text-sm text-muted-foreground">
                   <div className="flex justify-between">
                     <span className="font-medium text-foreground">Slug</span>
-                    <span>{product.slug ?? '—'}</span>
+                    <span>{typeof product.slug === 'string' ? product.slug : product.slug?.current ?? '—'}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="font-medium text-foreground">Product ID</span>
