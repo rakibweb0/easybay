@@ -1,33 +1,46 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import Image from 'next/image'
-import { useCart } from '@/lib/cart-context'
-import { X, Plus, Minus } from 'lucide-react'
-import { sanityImageBlurUrl, sanityImageUrl } from '@/lib/image-builder'
-import { ProductType } from '@/lib/types'
-import { PortableText } from 'next-sanity'
+import { useState } from "react";
+import Image from "next/image";
+import { useCart } from "@/lib/cart-context";
+import { X, Plus, Minus } from "lucide-react";
+import { sanityImageBlurUrl, sanityImageUrl } from "@/lib/image-builder";
+import { ProductType } from "@/lib/types";
+import { PortableText } from "next-sanity";
 
 interface ProductModalProps {
-  product: ProductType
-  onClose: () => void
+  product: ProductType;
+  onClose: () => void;
 }
 
 export default function ProductModal({ product, onClose }: ProductModalProps) {
-  const { addItem } = useCart()
-  const [quantity, setQuantity] = useState(1)
-  const [isAdded, setIsAdded] = useState(false)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const { addItem } = useCart();
+  const [quantity, setQuantity] = useState(1);
+  const [isAdded, setIsAdded] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const images = product.images?.length ? product.images : product.image?.length ? product.image : []
-  const currentImageUrl = sanityImageUrl(images[currentImageIndex]?.asset, 1200)
-  const currentImageBlurUrl = sanityImageBlurUrl(images[currentImageIndex]?.asset, 100, undefined, 25, 15)
+  const images = product.images?.length
+    ? product.images
+    : product.image?.length
+      ? product.image
+      : [];
+  const currentImageUrl = sanityImageUrl(
+    images[currentImageIndex]?.asset,
+    1200,
+  );
+  const currentImageBlurUrl = sanityImageBlurUrl(
+    images[currentImageIndex]?.asset,
+    100,
+    undefined,
+    25,
+    15,
+  );
 
   const handleAddToCart = () => {
-    addItem(product, quantity)
-    setIsAdded(true)
-    setTimeout(() => setIsAdded(false), 2000)
-  }
+    addItem(product, quantity);
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
+  };
 
   return (
     <>
@@ -82,13 +95,15 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 {images.length > 1 && (
                   <div className="grid grid-cols-4 gap-2">
                     {images.map((image, index) => {
-                      const thumbUrl = sanityImageUrl(image.asset, 240, 240)
+                      const thumbUrl = sanityImageUrl(image.asset, 240, 240);
                       return (
                         <button
                           key={image._key || index}
                           onClick={() => setCurrentImageIndex(index)}
                           className={`overflow-hidden rounded-lg border transition ${
-                            index === currentImageIndex ? 'border-primary' : 'border-border'
+                            index === currentImageIndex
+                              ? "border-primary"
+                              : "border-border"
                           }`}
                           type="button"
                           aria-label={`View image ${index + 1}`}
@@ -107,7 +122,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                             </div>
                           )}
                         </button>
-                      )
+                      );
                     })}
                   </div>
                 )}
@@ -116,7 +131,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
               {/* Details */}
               <div className="flex flex-col justify-start">
                 <p className="text-sm text-muted-foreground uppercase tracking-wide mb-4">
-                  {product.category.title || 'Uncategorized'}
+                  {product.category.title || "Uncategorized"}
                 </p>
 
                 <h1 className="text-3xl md:text-4xl font-light text-foreground mb-4 leading-tight">
@@ -124,26 +139,42 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 </h1>
 
                 <p className="text-lg text-muted-foreground mb-6">
-                  {product.shortDescription || 'No description available.'}
+                  {product.shortDescription || "No description available."}
                 </p>
 
                 <div className="mb-8 pb-8 border-b border-border space-y-3">
-                  <div className="text-3xl font-semibold text-foreground">
-                    ৳{product.price.toFixed(2)}
+                  <div>
+                    {product.offerPrice ? (
+                      <div>
+                        <span className="text-xl md:text-3xl text-foreground font-semibold">
+                          ৳{product.offerPrice.toFixed(2)}
+                        </span>
+                        <span className="text-lg  text-muted-foreground line-through ml-2">
+                          ৳{product.price.toFixed(2)}
+                        </span>
+                      </div>
+                    ) : (
+                      <div>
+                        <span className="text-xl md:text-3xl text-foreground font-semibold">
+                          ৳{product.price.toFixed(2)}
+                        </span>
+                      </div>
+                    )}
                   </div>
-                  {product.offerPrice != null && (
-                    <div className="text-sm text-muted-foreground">
-                      Offer Price: ৳{product.offerPrice.toFixed(2)}
-                    </div>
-                  )}
-                  <div className={`text-sm mt-2 ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
+                  <div
+                    className={`text-sm mt-2 ${product.stock > 0 ? "text-green-600" : "text-red-600"}`}
+                  >
+                    {product.stock > 0
+                      ? `${product.stock} in stock`
+                      : "Out of stock"}
                   </div>
                 </div>
 
                 <div className="mb-8 space-y-4">
                   <div className="flex items-center gap-4">
-                    <label className="text-sm font-medium text-foreground">Quantity:</label>
+                    <label className="text-sm font-medium text-foreground">
+                      Quantity:
+                    </label>
                     <div className="flex items-center gap-2 bg-muted border border-border rounded">
                       <button
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -152,7 +183,9 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                       >
                         <Minus size={18} />
                       </button>
-                      <span className="w-12 text-center font-medium">{quantity}</span>
+                      <span className="w-12 text-center font-medium">
+                        {quantity}
+                      </span>
                       <button
                         onClick={() => setQuantity(quantity + 1)}
                         className="p-2 hover:bg-border transition-colors"
@@ -167,11 +200,11 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                     disabled={product.stock === 0}
                     className={`w-full py-3 font-semibold text-lg transition-all rounded ${
                       isAdded
-                        ? 'bg-accent text-accent-foreground'
-                        : 'bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed'
+                        ? "bg-accent text-accent-foreground"
+                        : "bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                     }`}
                   >
-                    {isAdded ? '✓ Added to cart' : 'Add to cart'}
+                    {isAdded ? "✓ Added to cart" : "Add to cart"}
                   </button>
                 </div>
 
@@ -184,5 +217,5 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
         </div>
       </div>
     </>
-  )
+  );
 }

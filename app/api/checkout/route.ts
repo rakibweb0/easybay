@@ -2,7 +2,7 @@ import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
 
 const recipientEmail = process.env.ORDER_NOTIFY_EMAIL || 'rakibce30@gmail.com'
-const senderEmail = process.env.EMAIL_FROM || 'rakib@threemet.com'
+const senderEmail = process.env.EMAIL_FROM || 'rakibce30@gmail.com'
 
 function getResendClient() {
   const apiKey = process.env.RESEND_API_KEY

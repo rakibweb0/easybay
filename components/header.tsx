@@ -25,7 +25,7 @@ export default function Header({ isCartOpen, onCartToggle }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
   
-        <Link href="/" className='relative w-36 md:w-48 h-6 md:h-9'>
+        <Link href="/" className='relative w-36 md:w-48 h-6 md:h-8'>
         <Image src="/logo.png" alt="" fill/>
         </Link>
 

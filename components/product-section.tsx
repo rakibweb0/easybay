@@ -2,7 +2,7 @@
 
 import Cart from '@/components/cart'
 import ProductGrid from '@/components/product-grid'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Header from './header'
 import ProductModal from './product-modal'
 import { ProductType } from '@/lib/types'
@@ -28,6 +28,19 @@ export default function ProductSection({ products }: { products: ProductType[] }
     if (!selectedCategory) return products
     return products.filter(product => product.category?.title === selectedCategory)
   }, [products, selectedCategory])
+
+  const [currentPage, setCurrentPage] = useState(1)
+  const PRODUCTS_PER_PAGE = 12
+  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE))
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [selectedCategory, filteredProducts.length])
+
+  const paginatedProducts = useMemo(() => {
+    const start = (currentPage - 1) * PRODUCTS_PER_PAGE
+    return filteredProducts.slice(start, start + PRODUCTS_PER_PAGE)
+  }, [filteredProducts, currentPage])
 
   return (
     <div className="min-h-screen bg-background">
@@ -77,8 +90,8 @@ export default function ProductSection({ products }: { products: ProductType[] }
           </div>
 
         {/* Products */}
-        <div id="products" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {filteredProducts.map(product => (
+        <div id="products" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+          {paginatedProducts.map(product => (
             <ProductGrid
               key={product._id}
               product={product}
@@ -86,6 +99,41 @@ export default function ProductSection({ products }: { products: ProductType[] }
             />
           ))}
         </div>
+
+        {totalPages > 1 && (
+          <div className="flex flex-wrap justify-center items-center gap-2 mb-12">
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 rounded-full border border-border bg-background text-sm font-medium transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Previous
+            </button>
+
+            {Array.from({ length: totalPages }, (_, index) => index + 1).map(page => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition border border-border ${
+                  page === currentPage
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-background text-foreground hover:bg-muted'
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 rounded-full border border-border bg-background text-sm font-medium transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        )}
+
         {/* CTA Section */}
         <div className="rounded-3xl border border-border bg-muted p-8 text-center">
           <p className="text-sm uppercase tracking-[0.35em] text-primary font-semibold mb-3">
