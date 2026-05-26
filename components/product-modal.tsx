@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import Image from "next/image";
 import { useCart } from "@/lib/cart-context";
 import { X, Plus, Minus } from "lucide-react";
@@ -18,6 +18,15 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [zoomOrigin, setZoomOrigin] = useState({ x: "50%", y: "50%" });
+
+  const handleImageMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setZoomOrigin({ x: `${x}%`, y: `${y}%` });
+  };
 
   const images = product.images?.length
     ? product.images
@@ -69,10 +78,15 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Image Gallery */}
               <div className="flex flex-col gap-4">
-                <div className="relative aspect-square bg-muted rounded-lg overflow-hidden">
+                <div
+                className="relative aspect-square bg-muted rounded-lg overflow-hidden"
+                onMouseEnter={() => setIsZoomed(true)}
+                onMouseMove={handleImageMouseMove}
+                onMouseLeave={() => setIsZoomed(false)}
+              >
                   {currentImageBlurUrl && (
                     <div
-                      className="absolute inset-0 bg-cover bg-center blur-2xl scale-110 opacity-80"
+                      className="absolute inset-0 bg-cover bg-center blur-2xl scale-110 opacity-80 pointer-events-none"
                       style={{ backgroundImage: `url(${currentImageBlurUrl})` }}
                     />
                   )}
@@ -82,6 +96,11 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                       alt={`${product.title} - Image ${currentImageIndex + 1}`}
                       fill
                       className="object-cover"
+                      style={{
+                        transformOrigin: `${zoomOrigin.x} ${zoomOrigin.y}`,
+                        transform: isZoomed ? "scale(1.8)" : "scale(1)",
+                        transition: "transform 0.25s ease",
+                      }}
                       priority
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     />

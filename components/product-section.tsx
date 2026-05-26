@@ -33,10 +33,6 @@ export default function ProductSection({ products }: { products: ProductType[] }
   const PRODUCTS_PER_PAGE = 12
   const totalPages = Math.max(1, Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE))
 
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [selectedCategory, filteredProducts.length])
-
   const paginatedProducts = useMemo(() => {
     const start = (currentPage - 1) * PRODUCTS_PER_PAGE
     return filteredProducts.slice(start, start + PRODUCTS_PER_PAGE)
@@ -169,7 +165,7 @@ export default function ProductSection({ products }: { products: ProductType[] }
             
             <Link href="/" >
               <AspectRatio ratio={16/2} className='w-28 md:w-36'>
-                <Image src="/logo.png" alt="logo" fill className="object-contain" />
+                <Image src="/logo.png" alt="logo" fill className="object-contain" sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw'/>
               </AspectRatio>
             </Link>
             <p className="text-sm text-muted-foreground mt-2">

@@ -26,7 +26,7 @@ export default function Header({ isCartOpen, onCartToggle }: HeaderProps) {
         {/* Logo */}
   
         <Link href="/" className='relative w-36 md:w-48 h-6 md:h-8'>
-        <Image src="/logo.png" alt="" fill/>
+        <Image src="/logo.png" alt="" fill sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw'/>
         </Link>
 
         {/* Navigation - hidden on mobile */}
