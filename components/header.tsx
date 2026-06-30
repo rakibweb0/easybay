@@ -40,6 +40,15 @@ export default function Header({ isCartOpen, onCartToggle }: HeaderProps) {
           <Link href="/contact" className="hover:text-foreground transition-colors">
             Contact
           </Link>
+          <Link href="/privacy-policy" className="hover:text-foreground transition-colors">
+            Privacy Policy
+          </Link>
+          <Link href="/data-deletion" className="hover:text-foreground transition-colors">
+            Data Deletion
+          </Link>
+          <Link href="/terms" className="hover:text-foreground transition-colors">
+            Terms
+          </Link>
         </nav>
 
         {/* Cart Button */}
